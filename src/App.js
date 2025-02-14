@@ -1,9 +1,11 @@
-import navbar from "./components/navbar";
+import PrimarySearchAppBar from "./components/navbar/navbar";
+import OAuthSignInPage from "./components/sign-in/signin";
 
 function App() {
   return (
     <div className="App">
-      <navbar></navbar>
+      <OAuthSignInPage></OAuthSignInPage>
+      <PrimarySearchAppBar></PrimarySearchAppBar>
     </div>
   );
 }
