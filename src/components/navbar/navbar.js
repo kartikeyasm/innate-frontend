@@ -1,20 +1,25 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
+import { Typography } from '@mui/material';
+import Backdrop from '@mui/material/Backdrop';
+import Modal from '@mui/material/Modal';
+import OAuthSignInPage from '../sign-in/signin';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import LoginIcon from '@mui/icons-material/Login';
+import Logo from '../../assets/Logo.jpg';
+
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -56,13 +61,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+export default function PrimarySearchAppBar({isLoggedIn}) {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
+  const [open, setOpen] = useState(false)
+
+  const handleOpen = ()=>setOpen(true);
+  const handleClose = ()=>setOpen(false);
+    
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -81,7 +91,41 @@ export default function PrimarySearchAppBar() {
   };
 
   const menuId = 'primary-search-account-menu';
-  const renderMenu = (
+  
+
+  const renderProfileOrLogin = isLoggedIn ? (
+    <IconButton
+    size="large"
+    edge="end"
+    aria-label="account of current user"
+    aria-controls={menuId}
+    aria-haspopup="true"
+    onClick={handleProfileMenuOpen} // Open menu when clicked
+    color="inherit"
+    >
+      <AccountCircle />
+    </IconButton>
+  ):(
+    <IconButton
+    size="large"
+    aria-label="login"
+    color="inherit"
+    onClick={handleOpen}
+    sx={{
+      display: "flex",
+      flexDirection: "column", // Stack icon and text vertically
+      alignItems: "center",
+      gap: 0, // Add space between icon and text
+    }}
+    >
+      <LoginIcon sx={{ fontSize: 28 }} /> {/* Increase icon size */}
+      <Typography variant="caption" sx={{ fontSize: "0.75rem" }}>
+        Login
+      </Typography>
+    </IconButton>
+  );
+
+  const renderMenu =(
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{
@@ -98,8 +142,13 @@ export default function PrimarySearchAppBar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}>My Orders</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Track Orders</MenuItem>
+      <MenuItem onClick={handleMenuClose}>About</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Get In Touch</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
     </Menu>
+    
   );
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
@@ -119,107 +168,171 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
-  );
 
-  return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
+      {isLoggedIn ? (
+        <>
+          {/* Cart */}
+          <MenuItem>
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
             >
               <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
+                <ShoppingCartIcon />
               </Badge>
             </IconButton>
+            <p>Cart</p>
+          </MenuItem>
+
+          {/* Profile */}
+          <MenuItem onClick={handleProfileMenuOpen}>
             <IconButton
               size="large"
-              edge="end"
               aria-label="account of current user"
-              aria-controls={menuId}
+              aria-controls="primary-search-account-menu"
               aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
               color="inherit"
             >
               <AccountCircle />
             </IconButton>
+            <p>Profile</p>
+          </MenuItem>
+        </>  
+      ):(
+        <MenuItem onClick={handleOpen}>
+          <IconButton
+          size="large"
+          aria-label="login"
+          color="inherit"
+          sx={{
+            display: "flex",
+            flexDirection: "column", // Stack icon and text vertically
+            alignItems: "center",
+            gap: 0, // Add space between icon and text
+          }}
+          >
+            <LoginIcon sx={{ fontSize: 28 }} /> {/* Increase icon size */}
+            <Typography variant="caption" sx={{ fontSize: "0.75rem" }}>
+              Login
+            </Typography>
+          </IconButton>
+        </MenuItem>
+      )}
+    </Menu>
+  );
+
+  return (
+    <>
+    
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="fixed">
+          <Toolbar>
+
+            {/* Logo */}
+            <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
+              <img
+                src={Logo} 
+                alt="Logo"
+                style={{ width: 85, height: 40, marginRight: 10 }}
+                />
+              
+            </Box>
+            
+            {/* Search Bar */}
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ 'aria-label': 'search' }}
+              />
+            </Search>
+
+            {/* Right */}
+            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+              
+              {/* Cart */}
+              <IconButton
+                size="large"
+                aria-label="show 17 new notifications"
+                color="inherit"
+                >
+                <Badge badgeContent={17} color="error">
+                  <ShoppingCartIcon />
+                </Badge>
+              </IconButton>
+              
+              
+              {/* Profile */}
+              {renderProfileOrLogin}
+
+
+            </Box>
+
+
+            <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+              <IconButton
+                size="large"
+                aria-label="show more"
+                aria-controls={mobileMenuId}
+                aria-haspopup="true"
+                onClick={handleMobileMenuOpen}
+                color="inherit"
+              >
+                <MoreIcon />
+              </IconButton>
+            </Box>
+          </Toolbar>
+        </AppBar>
+        {renderMobileMenu}
+        {renderMenu}
+      </Box>
+
+      <Modal
+      open={open}
+      onClose={handleClose}
+      closeAfterTransition
+      BackdropComponent={Backdrop}
+      BackdropProps={{
+        timeout: 500,
+        sx: { backdropFilter: "blur(8px)" }, // Background blur effect
+      }}
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            bgcolor: "white",
+            boxShadow: "0px 8px 24px rgba(0, 0, 0, 0.2)", // Soft shadow for card effect
+            borderRadius: "12px", // Smooth rounded edges
+            border: "1px solid rgba(0, 0, 0, 0.1)",
+            width: "auto",
+            maxWidth: "90vw", // Prevents it from getting too wide
+            minWidth: "300px",
+            maxHeight: "90vh", // Prevents excessive height
+            overflow: "hidden", // Ensures no extra space outside
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              padding: "0px", // Removes unnecessary padding
+            }}
+          >
+            <OAuthSignInPage onClose={handleClose} />
           </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </Box>
-        </Toolbar>
-      </AppBar>
-      {renderMobileMenu}
-      {renderMenu}
-    </Box>
+        </Box>
+      </Modal>
+    </>
   );
 }

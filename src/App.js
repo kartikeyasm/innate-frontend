@@ -1,11 +1,13 @@
+import { useState } from "react";
 import PrimarySearchAppBar from "./components/navbar/navbar";
-import OAuthSignInPage from "./components/sign-in/signin";
+
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
     <div className="App">
-      <OAuthSignInPage></OAuthSignInPage>
-      <PrimarySearchAppBar></PrimarySearchAppBar>
+      <PrimarySearchAppBar isLoggedIn={isLoggedIn}></PrimarySearchAppBar>
+      
     </div>
   );
 }
