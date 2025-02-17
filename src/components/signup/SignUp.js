@@ -27,7 +27,7 @@ const SignUp = () => {
             return;
         }
         try {
-            const res = await fetch("api", {
+            const res = await fetch("https://innate-backend.onrender.com/api/v1/user/signup", {
                 method: "POST",
                 headers: {
                     "Content-Type" : "application/json"
