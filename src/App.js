@@ -1,14 +1,21 @@
 import { useState } from "react";
-import PrimarySearchAppBar from "./components/navbar/navbar";
-
+import Navbar from "./components/navbar/Navbar";
+import {Route, Routes } from "react-router-dom";
+import SignUp from "./components/signup/SignUp";
+import SignIn from "./components/signin/SignIn";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
-    <div className="App">
-      <PrimarySearchAppBar isLoggedIn={isLoggedIn}></PrimarySearchAppBar>
+    <Routes>
+    
+      <Route path="/" element={<Navbar isLoggedIn={isLoggedIn}/>}/>
       
-    </div>
+      <Route path="/signIn" element={<SignIn/>} />
+      <Route path="/forgetPassword" element={"ToDO"} />
+      <Route path="/signUp" element={<SignUp/>} />
+    
+    </Routes>
   );
 }
 
