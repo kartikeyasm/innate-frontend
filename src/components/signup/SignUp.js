@@ -40,6 +40,7 @@ const SignUp = () => {
                 setMobile('');
                 setPassword('');
                 setConfirmPassword('');
+                console.log(res);
                 console.log("Sign in successful");
                 navigate("/")
                 /* TO DO */

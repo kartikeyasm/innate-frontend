@@ -15,7 +15,7 @@ const SignIn = () => {
 
     const handleSubmit =async (event)=>{
         event.preventDefault();
-
+        let phone = "";
         setError(null);
         if(!email || !password){
             setError("All Fields are mandatory");
@@ -28,7 +28,7 @@ const SignIn = () => {
                 headers: {
                     "Content-Type" : "application/json"
                 },
-                body: JSON.stringify({ email, password })
+                body: JSON.stringify({ email, phone, password })
             })
 
             if(!res.ok){
