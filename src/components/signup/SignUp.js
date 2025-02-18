@@ -5,11 +5,11 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 const SignUp = () => {
-    const [name, setName] = useState("");
+    const [fullname, setName] = useState("");
     const [email, setEmail] = useState("");
-    const [mobile, setMobile] = useState("");
+    const [phone, setMobile] = useState("");
     const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [confirmpassword, setConfirmPassword] = useState("");
     const [error, setError] = useState(null);
 
     const navigate = useNavigate();
@@ -17,7 +17,7 @@ const SignUp = () => {
     const handleSubmit =async (event)=>{
         event.preventDefault();
         setError(null);
-        if(!name || !email || !mobile || !password || !confirmPassword){
+        if(!fullname || !email || !phone || !password || !confirmpassword){
             setError("All Fields are mandatory");
             return;
         }
@@ -27,7 +27,7 @@ const SignUp = () => {
                 headers: {
                     "Content-Type" : "application/json"
                 },
-                body: JSON.stringify({name, email, mobile, password, confirmPassword})
+                body: JSON.stringify({fullname, email, phone, password, confirmpassword})
             })
 
             if(!res.ok){
@@ -80,11 +80,11 @@ const SignUp = () => {
                     </Typography>
                 )}
                 <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 1}}> 
-                    <TextField label="Full Name" value={name} onChange={(e)=>setName(e.target.value)} placeholder='Enter Full Name' fullWidth required autoFocus sx={{mb:2}}/>
+                    <TextField label="Full Name" value={fullname} onChange={(e)=>setName(e.target.value)} placeholder='Enter Full Name' fullWidth required autoFocus sx={{mb:2}}/>
                     <TextField label="Email" value={email} onChange={(e)=>setEmail(e.target.value)} placeholder='Enter Email Id' fullWidth required sx={{mb:2}}/>
-                    <TextField label="Mobile" value={mobile} onChange={(e)=>setMobile(e.target.value)} placeholder='Enter Mobile No.' fullWidth required sx={{mb:2}}/>
+                    <TextField label="Mobile" value={phone} onChange={(e)=>setMobile(e.target.value)} placeholder='Enter Mobile No.' fullWidth required sx={{mb:2}}/>
                     <TextField label="Password" value={password} onChange={(e)=>setPassword(e.target.value)} placeholder='Enter Password' fullWidth required type='password' sx={{mb:2}}/>
-                    <TextField label="Confirm Password" value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)} placeholder='Confirm Password' fullWidth required type='password' sx={{mb:2}}/>
+                    <TextField label="Confirm Password" value={confirmpassword} onChange={(e)=>setConfirmPassword(e.target.value)} placeholder='Confirm Password' fullWidth required type='password' sx={{mb:2}}/>
                     <Button type='submit' variant='contained' fullWidth sx={{mt:1}}>
                         Sign Up
                     </Button>
