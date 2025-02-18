@@ -8,7 +8,6 @@ const SignUp = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [mobile, setMobile] = useState("");
-    const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState(null);
@@ -18,21 +17,17 @@ const SignUp = () => {
     const handleSubmit =async (event)=>{
         event.preventDefault();
         setError(null);
-        if(!name || !email || !mobile || !userName || !password || !confirmPassword){
+        if(!name || !email || !mobile || !password || !confirmPassword){
             setError("All Fields are mandatory");
             return;
         }
-        if(password!==confirmPassword){
-            setError("Your passwords does not match");
-            return;
-        }
         try {
-            const res = await fetch("api", {
+            const res = await fetch("https://innate-backend.onrender.com/api/v1/user/login", {
                 method: "POST",
                 headers: {
                     "Content-Type" : "application/json"
                 },
-                body: JSON.stringify({name, email, mobile, userName, password, confirmPassword})
+                body: JSON.stringify({name, email, mobile, password, confirmPassword})
             })
 
             if(!res.ok){
@@ -43,7 +38,6 @@ const SignUp = () => {
                 setName("");
                 setEmail('');
                 setMobile('');
-                setUserName('');
                 setPassword('');
                 setConfirmPassword('');
                 console.log("Sign in successful");
@@ -89,7 +83,6 @@ const SignUp = () => {
                     <TextField label="Full Name" value={name} onChange={(e)=>setName(e.target.value)} placeholder='Enter Full Name' fullWidth required autoFocus sx={{mb:2}}/>
                     <TextField label="Email" value={email} onChange={(e)=>setEmail(e.target.value)} placeholder='Enter Email Id' fullWidth required sx={{mb:2}}/>
                     <TextField label="Mobile" value={mobile} onChange={(e)=>setMobile(e.target.value)} placeholder='Enter Mobile No.' fullWidth required sx={{mb:2}}/>
-                    <TextField label="Username" value={userName} onChange={(e)=>setUserName(e.target.value)} placeholder='Enter Username' fullWidth required sx={{mb:2}}/>
                     <TextField label="Password" value={password} onChange={(e)=>setPassword(e.target.value)} placeholder='Enter Password' fullWidth required type='password' sx={{mb:2}}/>
                     <TextField label="Confirm Password" value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)} placeholder='Confirm Password' fullWidth required type='password' sx={{mb:2}}/>
                     <Button type='submit' variant='contained' fullWidth sx={{mt:1}}>

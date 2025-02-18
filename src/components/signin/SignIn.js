@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
 
-    const [userName, setUserName] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
 
@@ -17,7 +17,7 @@ const SignIn = () => {
         event.preventDefault();
 
         setError(null);
-        if(!userName || !password){
+        if(!email || !password){
             setError("All Fields are mandatory");
             return;
         }
@@ -28,7 +28,7 @@ const SignIn = () => {
                 headers: {
                     "Content-Type" : "application/json"
                 },
-                body: JSON.stringify({ userName, password })
+                body: JSON.stringify({ email, password })
             })
 
             if(!res.ok){
@@ -36,10 +36,11 @@ const SignIn = () => {
                 setError(errorData.message || "Failed to Sign In, try again later");
             }
             if(res.ok){
-                setUserName("");
+                setEmail("");
                 setPassword("");
+                console.log(res);
                 console.log("Sign in successful");
-                navigate("/")
+                navigate("/");
             }
         } catch (error) {
             console.error("Failed to sign in");
@@ -76,7 +77,7 @@ const SignIn = () => {
                     </Typography>
                 )}
                 <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 1}}> 
-                    <TextField label="Username" value={userName} onChange={(e)=>setUserName(e.target.value)} placeholder='Enter Username' fullWidth required autoFocus sx={{mb:2}}/>
+                    <TextField label="Email/Mobile No" value={email} onChange={(e)=>setEmail(e.target.value)} placeholder='Email/Mobile No.' fullWidth required autoFocus sx={{mb:2}}/>
                     <TextField label="Password" value={password} onChange={(e)=>setPassword(e.target.value)} placeholder='Enter Password' fullWidth required type='password' sx={{mb:2}}/>
                     
                     <Button type='submit' variant='contained' fullWidth sx={{mt:1}}>
