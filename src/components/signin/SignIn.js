@@ -1,9 +1,12 @@
+import React, { useState } from 'react'
+import { useDispatch } from "react-redux"
+import { login } from "../../redux/authSlice"
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie'
 import { Avatar, Container, Paper, Typography, Box, TextField, Button, Link, Divider } from '@mui/material'
 import { Link as RouterLink } from "react-router-dom";
 import Grid from '@mui/material/Grid2'
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
 
@@ -11,6 +14,7 @@ const SignIn = () => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
 
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleSubmit =async (event)=>{
@@ -34,16 +38,21 @@ const SignIn = () => {
             if(!res.ok){
                 const errorData = await res.json();
                 setError(errorData.message || "Failed to Sign In, try again later");
+                return;
             }
             if(res.ok){
                 setEmail("");
                 setPassword("");
                 console.log(res);
+                const data = await res.json();
+                const token = Cookies.get('token');
+                dispatch(login({user: data.user, token}));
                 console.log("Sign in successful");
                 navigate("/");
             }
         } catch (error) {
-            console.error("Failed to sign in");
+            console.error("Failed to sign in", error);
+            setError("An unexpected error occured. Please try again later.");
         }      
     }
 

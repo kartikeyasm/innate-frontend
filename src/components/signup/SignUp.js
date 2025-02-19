@@ -41,7 +41,7 @@ const SignUp = () => {
                 setPassword('');
                 setConfirmPassword('');
                 console.log(res);
-                console.log("Sign in successful");
+                console.log("Sign in successful"); 
                 navigate("/")
                 /* TO DO */
             }

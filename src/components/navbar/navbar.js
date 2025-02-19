@@ -6,6 +6,8 @@ import { styled, alpha } from "@mui/material/styles";
 import Logo from "../../assets/Logo.jpg"
 import LoginIcon from '@mui/icons-material/Login';
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../redux/authSlice";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -37,9 +39,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   paddingLeft: `calc(1em + ${theme.spacing(4)})`,
 }));
 
-const Navbar = ({ isLoggedIn }) => {
+const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null); // To control dropdown menu
-
+  const isAuthenticated = useSelector((state)=> state.auth.isAuthenticated);
+  const dispatch = useDispatch();
+  
   // Handle opening the menu
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -50,12 +54,17 @@ const Navbar = ({ isLoggedIn }) => {
     setAnchorEl(null);
   };
 
+  const handleLogOut = ()=>{
+    dispatch(logout());
+    handleMenuClose();
+  }
+
   return (
     <AppBar position="static">
       <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
 
         {/* Left Side - Logo */}
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box component={Link} to="/" sx={{ display: 'flex', alignItems: 'center' }}>
           <img
             src={Logo} 
             alt="Logo"
@@ -81,7 +90,7 @@ const Navbar = ({ isLoggedIn }) => {
           </IconButton>
 
           {/* Conditional Login / Logout Button */}
-          {isLoggedIn ? (
+          {isAuthenticated ? (
             <Button
               color="inherit"
               startIcon={<AccountCircle />}
@@ -112,7 +121,7 @@ const Navbar = ({ isLoggedIn }) => {
             <MenuItem onClick={handleMenuClose}>About</MenuItem>
             <MenuItem onClick={handleMenuClose}>Get In Touch</MenuItem>
             <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+            <MenuItem onClick={handleLogOut}>Logout</MenuItem>
           </Menu>
         </Box>
       </Toolbar>
