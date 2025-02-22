@@ -98,7 +98,7 @@ const Navbar = () => {
               onClick={handleMenuClick} // Open dropdown
             />
           ) : (
-            <Button component={Link} to="/signin" color="inherit" startIcon={<LoginIcon sx={{ fontSize: 38 }} />} sx={{ fontWeight: 'bold', display: 'flex', alignItems: 'center' }}>
+            <Button component={Link} to="/auth/signin" color="inherit" startIcon={<LoginIcon sx={{ fontSize: 38 }} />} sx={{ fontWeight: 'bold', display: 'flex', alignItems: 'center' }}>
               <Typography variant="caption" sx={{ fontSize: "0.75rem", marginLeft: 1 }}>
                 Login
               </Typography>

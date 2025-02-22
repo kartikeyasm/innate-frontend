@@ -96,12 +96,12 @@ const SignIn = () => {
                 </Box>
                 <Grid container justifyContent={'space-between'} sx={{mt: 1}}>
                     <Grid item>
-                        <Link component={RouterLink} to="/forgetPassword" aria-label="Forgot password">
+                        <Link component={RouterLink} to="/auth/forgetPassword" aria-label="Forgot password">
                             Forgot password?
                         </Link>
                     </Grid>
                     <Grid item>
-                        <Link component={RouterLink} to="/signup" aria-label="Sign Up">
+                        <Link component={RouterLink} to="/auth/signup" aria-label="Sign Up">
                             Sign Up
                         </Link>
                     </Grid>
@@ -129,6 +129,7 @@ const SignIn = () => {
                 </Button>
             </Paper>
         </Container>
+        
     )
 }
 

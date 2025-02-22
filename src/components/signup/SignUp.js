@@ -58,8 +58,8 @@ const SignUp = () => {
     };
 
     return (
-        <Container maxWidth="xs">
-            <Paper elevation={10} sx={{ margin: 8, padding: 2}}>
+        <Container maxWidth="xs" sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh"}}>
+            <Paper elevation={10} sx={{padding: 3, borderRadius: 3, boxShadow: 5, maxWidth: 400, width: "100%", backgroundColor: "white", display: "flex", flexDirection: "column", alignItems: "center", gap: 2}}>
                 <Avatar 
                     sx={{
                         mx: "auto",
@@ -92,7 +92,7 @@ const SignUp = () => {
                 </Box>
                 <Grid container justifyContent={'space-between'} sx={{mt: 1}}>
                     <Grid item>
-                        <Link component={RouterLink} to="/SignIn">
+                        <Link component={RouterLink} to="/auth/signin">
                             Already have account, Sign In
                         </Link>
                     </Grid>
