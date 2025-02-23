@@ -4,7 +4,7 @@ import LeftAuth from './leftAuth'
 
 function AuthLayout() {
   return (
-    <div className='flex h-screen'>
+    <div className='flex h-full mt-16'>
         <div className='hidden lg:block w-1/2 bg-gray-100 p-6'>
             <LeftAuth/>
         </div>
